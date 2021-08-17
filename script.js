@@ -111,7 +111,6 @@ function keyPressedDown(e) {
         else {
             thrust = 10;
         }
-        }
     }
 }
 
