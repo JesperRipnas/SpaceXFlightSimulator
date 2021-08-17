@@ -106,10 +106,11 @@ function keyPressedDown(e) {
         case 16: if(thrust <= 9) thrust += 0.1; break;
         case 17: if(thrust > 0) thrust -= 0.1; break;
         case 32: if(thrust > 0) {
-            thrust = 0; 
+            thrust = 0; // should only impact thrust, not speed
         }
         else {
-            thrust = 10;
+            thrust = 10; // should only impact thrust, not speed
+        }
         }
     }
 }
