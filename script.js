@@ -109,7 +109,7 @@ function keyPressedDown(e) {
             thrust = 0; // should only impact thrust, not speed
         }
         else {
-            thrust = 10; // should only impact thrust, not speed
+            thrust = 10;
         }
         }
     }
