@@ -1,15 +1,16 @@
 const canvas = document.getElementById('canv');
 const ctx = canvas.getContext('2d');
 const ctxBorder = canvas.getContext('2d');
+var startMenuActive = false;
 var gameOver = false;
-var rocket;
-var thrust = 4.8;
+var thrust = 4.5;
 var gravity = 9.81;
 var mass = 0.050;
 var weight = mass * 9.8; 
 var force = thrust - mass;
 var acceleration = force / mass
 var points = 0;
+var rocket;
 
 class Rocket {
     constructor(x,y) {
@@ -18,8 +19,11 @@ class Rocket {
         this.w = 10;
         this.h = 150;
         this.ySpeed = gravity;
+        this.angle = 0;
     }
     show() {
+        if(!startMenuActive) {
+        ctx.rotate(this.angle / 180);
         //Body
         ctx.fillStyle = 'white';
         ctx.fills;
@@ -40,6 +44,7 @@ class Rocket {
         //Thrust
         ctx.fillStyle = 'yellow';
         ctx.fillRect(this.x, this.y+150, this.w, thrust*2.5);
+        }
     }
     update() {
         if(this.y <= 590) {
@@ -48,7 +53,6 @@ class Rocket {
         else {
             gameOver = true;
             thrust = 0;
-            console.log("Game over");
 
             //Gameover text
             ctx.fillStyle = 'Black';
@@ -83,8 +87,6 @@ function update() {
         rocket.show();
         rocket.update();
     
-        //Thrust
-
         //ThrustText
         ctx.fillStyle = 'yellow';
         ctx.font = "30px Arial";
@@ -96,12 +98,22 @@ function update() {
     
         //Rocket Movement
         points++;
+
+    }
+    else {
+        ctx.fillStyle = 'black';
+        ctx.font = "30px Arial";
+        rect = {
+            x: 350,
+            y: 350
+        };
+        ctx.fillText("Restart", rect.x, rect.y + 16);
     }
 }
 
+//Listen for keystrokes from keyboard
 function keyPressedDown(e) {
     var key = e.keyCode;
-    console.log(key);
     switch (key) {
         case 16: if(thrust <= 9) thrust += 0.1; break;
         case 17: if(thrust > 0) thrust -= 0.1; break;
@@ -111,11 +123,13 @@ function keyPressedDown(e) {
         else {
             thrust = 10;
         }
+        case 65: rocket.angle -= 0.1;
+        case 68: rocket.angle += 0.1;
     }
 }
 
 //Function to get the mouse position
-function getMousePos(canvas, event) {
+function getMousePos(event) {
     var rect = canvas.getBoundingClientRect();
     return {
         x: event.clientX - rect.left,
@@ -123,4 +137,25 @@ function getMousePos(canvas, event) {
     };
 }
 
+function checkIfUserPressedRestartOrQuit(e) {
+    var clickCord = getMousePos(e);
+
+    if(clickCord.x >= 350 && clickCord.x <= 450 &&
+       clickCord.y >=  340 && clickCord.y <= 370) {
+            gameOver = false;
+            rocket.x = 400;
+            rocket.y = 50;
+            thrust = 4.5;
+            rocket.ySpeed = gravity;
+            points = 0;
+    }
+
+    // if (clickCord.x >= rect.x && clickCord.x <= rect.x + rect.w &&
+    //     clickCord.y >= rect.y && clickCord.y <= rect.y + rect.h) {
+            
+
+    // }
+}
+
+canvas.addEventListener('click', checkIfUserPressedRestartOrQuit, false);
 document.onkeydown = keyPressedDown;
