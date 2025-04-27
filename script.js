@@ -1,16 +1,16 @@
 const canvas = document.getElementById('canv');
 const ctx = canvas.getContext('2d');
 const ctxBorder = canvas.getContext('2d');
-var startMenuActive = false;
-var gameOver = false;
-var thrust = 4.5;
-var gravity = 9.81;
-var mass = 0.050;
-var weight = mass * 9.8; 
-var force = thrust - mass;
-var acceleration = force / mass
-var points = 0;
-var rocket;
+let startMenuActive = false;
+let gameOver = false;
+let thrust = 4.5;
+let gravity = 9.81;
+let mass = 0.050;
+let weight = mass * 9.8; 
+let force = thrust - mass;
+let acceleration = force / mass
+let points = 0;
+let rocket;
 
 class Rocket {
     constructor(x,y) {
